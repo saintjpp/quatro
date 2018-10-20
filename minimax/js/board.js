@@ -184,14 +184,3 @@ Board.prototype.copy = function() {
     }
     return new Board(this.game, newBoard, this.player);
 }
-
-function toggleConfig() {
-    var configDisplay = document.getElementById("standings");
-    
-    if (configDisplay.style.display == "none") {
-        document.getElementById("standings").setAttribute('style','display: inherit');
-    }
-    else {
-        document.getElementById("standings").setAttribute('style','display: none');
-    }
-}

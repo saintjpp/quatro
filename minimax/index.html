@@ -24,14 +24,14 @@
                 <span class="title">Tabuleiro</span>
             </div>
             <div class="col-sm-2">
-                <span class="title">Instruções</span>
+                <span class="title" onClick="toggleInstructions()">Instruções</span>
             </div>
             <div class="col-sm-2">
                 <span class="title">Configurações</span>
             </div>
         </div>
 
-        <div id="container">
+        <div id="containerBoard">
                 <h1 class="header-text">Minimax Algorithm</h1>
                 <p class="text subheader-text">
                     Artificial Intelligence based on the Minimax- and α-β-Pruning principles.
@@ -67,22 +67,36 @@
                         <p>Measured with <span id="ai-time">?</span></p>
                         <p><span id="ai-column">Column: ?</span></p>
                         <p><span id="ai-score">Score: ?</span></p>
-                        <br/>
-                        <p>Status: <span id="status" class="status-running">running</span></p>
                     </div>
                 </div>
         </div>
-    
-        <div id="standings" style="display: none">
-            <h4 class="header-text">Classificações</h4>
-            <br>
-            <li id="games">Jogos - 0</li>
-            <li id="gamesComputer">Ganhos pelo computador - 0</li>
-            <li id="gamesPlayer">Ganhos pelo jogador - 0</li>
-            <li id="draws">Empates - 0</li>
-        </div>
 
-        <img src="../logo.png" alt="4 in a Row Logotipo" id="logo">
+        <div id="containerMenus">
+            <div id="standings" style="display: none">
+                <h4 class="header-text">Classificações</h4>
+                <br>
+                <li id="games">Jogos - 0</li>
+                <li id="gamesComputer">Ganhos pelo computador - 0</li>
+                <li id="gamesPlayer">Ganhos pelo jogador - 0</li>
+                <li id="draws">Empates - 0</li>
+            </div>
+    
+            <div id="instructions" style="display: none">
+                <h4 class="header-text">Instruções</h4>
+                <br>
+                <span>     
+                        O quatro em linha joga-se numa grelha (geralmente 7 x 6) colocada na vertical. 
+                        As peças colocadas numa das aberturas no topo da grelha caiem ao longo de calhas 
+                    e ocupam a primeira posição livre, seja no fundo da grelha ou sobre outra peça.
+                        Cada jogador joga com peças de cor diferente e alternadamente coloca uma peça numa
+                    das calhas ainda não completamente preenchidas. Ganha o primeiro jogador que conseguir 
+                    colocar 4 peças da sua cor alinhadas, na vertical, horizontal ou diagonal.
+                </span>    
+            </div>
+        </div>
+    
+
+        <img src="logo.png" alt="4 in a Row Logotipo" id="logo">
 
         <script src="js/board.js"></script>
         <script src="js/connect-four.js"></script>

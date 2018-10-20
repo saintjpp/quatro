@@ -1,11 +1,28 @@
-/**
- * Minimax Implementation 
- * @plain javascript version
- */
+function toggleConfig() {
+    var configDisplay = document.getElementById("standings");
+    
+    if (configDisplay.style.display == "none") {
+        document.getElementById("standings").setAttribute('style','display: inherit');
+    }
+    else {
+        document.getElementById("standings").setAttribute('style','display: none');
+    }
+}
+
+function toggleInstructions() {
+    var configDisplay = document.getElementById("instructions");
+    
+    if (configDisplay.style.display == "none") {
+        document.getElementById("instructions").setAttribute('style','display: inherit');
+    }
+    else {
+        document.getElementById("instructions").setAttribute('style','display: none');
+    }
+}
+
 function Game() {
     this.rows = 6; // Height
     this.columns = 7; // Width
-    this.status = 0; // 0: running, 1: won, 2: lost, 3: tie
     this.depth = 4; // Search depth
     this.score = 100000, // Win/loss score
     this.round = 0; // 0: Human, 1: Computer
@@ -89,7 +106,7 @@ Game.prototype.place = function(column) {
         }
 
         if (!that.board.place(column)) {
-            return alert("Invalid move!");
+            return alert("Movimento Inválido ! Coluna cheia");
         }
 
         that.round = that.switchRound(that.round);
@@ -148,12 +165,12 @@ Game.prototype.maximizePlay = function(board, depth) {
 
             that.iterations++; // Debug
 
-            var next_move = that.minimizePlay(newBoard, depth - 1); // Recursive calling
+            var nextMove = that.minimizePlay(newBoard, depth - 1); // Recursive calling
 
             // Evaluate new move
-            if (max[0] == null || next_move[1] > max[1]) {
+            if (max[0] == null || nextMove[1] > max[1]) {
                 max[0] = column;
-                max[1] = next_move[1];
+                max[1] = nextMove[1];
             }
         }
     }
@@ -176,11 +193,11 @@ Game.prototype.minimizePlay = function(board, depth) {
 
             that.iterations++;
 
-            var next_move = that.maximizePlay(newBoard, depth - 1);
+            var nextMove = that.maximizePlay(newBoard, depth - 1);
 
-            if (min[0] == null || next_move[1] < min[1]) {
+            if (min[0] == null || nextMove[1] < min[1]) {
                 min[0] = column;
-                min[1] = next_move[1];
+                min[1] = nextMove[1];
             }
 
         }
@@ -195,29 +212,26 @@ Game.prototype.switchRound = function(round) {
 Game.prototype.updateStatus = function() {
     // Human won
     if (that.board.score() == -that.score) {
-        that.status = 1;
         that.playerWon += 1;
 
         that.markWin();
         document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
 
-        alert("You have won!");
+        alert("Vitória!");
     }
 
     // Computer won
     if (that.board.score() == that.score) {
-        that.status = 2;
         that.computerWon += 1;
 
         that.markWin();
         document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
 
-        alert("You have lost!");
+        alert("Vitória para o computador!");
     }
 
     // Tie
     if (that.board.isFull()) {
-        that.status = 3;
         that.draws += 1;
 
         document.getElementById('draws').innerHTML = "Empates - " + that.draws;
@@ -226,23 +240,7 @@ Game.prototype.updateStatus = function() {
     }
 
     totalGames = that.computerWon + that.draws + that.playerWon;
-
     document.getElementById('games').innerHTML = "Jogos - " + totalGames;
-
-    var html = document.getElementById('status');
-    if (that.status == 0) {
-        html.className = "status-running";
-        html.innerHTML = "running";
-    } else if (that.status == 1) {
-        html.className = "status-won";
-        html.innerHTML = "won";
-    } else if (that.status == 2) {
-        html.className = "status-lost";
-        html.innerHTML = "lost";
-    } else {
-        html.className = "status-tie";
-        html.innerHTML = "tie";
-    }
 }
 
 Game.prototype.markWin = function() {
@@ -255,19 +253,7 @@ Game.prototype.markWin = function() {
 
 Game.prototype.restartGame = function() {
     if (confirm('Game is going to be restarted.\nAre you sure?')) {
-        // Dropdown value
-        var difficulty = document.getElementById('difficulty');
-        var depth = difficulty.options[difficulty.selectedIndex].value;
-        that.depth = depth;
-        that.status = 0;
-        that.round = 0;
         that.init();
-        document.getElementById('ai-iterations').innerHTML = "?";
-        document.getElementById('ai-time').innerHTML = "?";
-        document.getElementById('ai-column').innerHTML = "Column: ?";
-        document.getElementById('ai-score').innerHTML = "Score: ?";
-        document.getElementById('game_board').className = "";
-        that.updateStatus();
     }
 }
 

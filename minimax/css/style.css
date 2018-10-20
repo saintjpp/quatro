@@ -15,22 +15,27 @@ h1 {
     padding: 0;
 }
 
-#cenas {
-    top: 50px;
-}
-
-#standings {
-    position: absolute;
+#standings, #instructions {
+    position: relative;
     left: 0%;
-    margin-top: 70px;
+    margin-top: 40px;
     margin-left: 25px;
+    display: inherit;
+    width: 280px;
 }
 
-#container {
+#containerBoard {
     position: absolute;
     left: 50%;
     margin-top: 50px;
     margin-left: -255px;
+}
+
+#containerMenus {
+    position: absolute;
+    left: 0%;
+    margin-top: 50px;
+    margin-left: 55px;
 }
 
 #logo {
