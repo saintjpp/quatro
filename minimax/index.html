@@ -15,7 +15,7 @@
     <body>
         <div class="row" id="navigation">
             <div class="col-sm-2">
-                <span class="title">Configurações</span>
+                <span class="title" onClick="toggleConfig()">Classificações</span>
             </div>
             <div class="col-sm-2">
                 <span class="title">Identificação</span>
@@ -27,59 +27,62 @@
                 <span class="title">Instruções</span>
             </div>
             <div class="col-sm-2">
-                <span class="title">Classificações</span>
+                <span class="title">Configurações</span>
             </div>
         </div>
 
-        <div class="cenas">
-            <div id="container">
-                    <h1 class="header-text">Minimax Algorithm</h1>
-                    <p class="text subheader-text">
-                        Artificial Intelligence based on the Minimax- and α-β-Pruning principles.
-                    </p>
-        
-                    <div class="box-left">
-                        <table id="game_board" cellpadding="0"></table> 
-                        <div id="loading">AI is thinking...</div>
-                    </div>
-        
-                    <div class="box-right">
-                        <div id="options">
-                            <p class="header">Algorithm</p>
-                            <p class="header">Difficulty</p>
-                            <p>
-                                <select id="difficulty" autocomplete="off">
-                                    <option value="1">Depth 1</option>
-                                    <option value="2">Depth 2 (Passive)</option>
-                                    <option value="3">Depth 3</option>
-                                    <option value="4" selected="selected">Depth 4 (Easy)</option>
-                                    <option value="5">Depth 5</option>
-                                    <option value="6">Depth 6 (Moderate)</option>
-                                    <option value="7">Depth 7</option>
-                                    <option value="8">Depth 8 (Tougher)</option>
-                                </select>
-                            </p>
-                            <p><button class="save" onclick="Game.restartGame();" type="submit">Restart game</button></p>
-                        </div>
-        
-                        <div id="debug">
-                            <p><strong>AI debugging</strong></p>
-                            <p>Generated with <span id="ai-iterations">?</span> iterations</p>
-                            <p>Measured with <span id="ai-time">?</span></p>
-                            <p><span id="ai-column">Column: ?</span></p>
-                            <p><span id="ai-score">Score: ?</span></p>
-                            <br/>
-                            <p>Status: <span id="status" class="status-running">running</span></p>
-                        </div>
-                    </div>
-            </div>
+        <div id="container">
+                <h1 class="header-text">Minimax Algorithm</h1>
+                <p class="text subheader-text">
+                    Artificial Intelligence based on the Minimax- and α-β-Pruning principles.
+                </p>
     
-            <div id="standings">
-                
-            </div>
+                <div class="box-left">
+                    <table id="game_board" cellpadding="0"></table> 
+                    <div id="loading">AI is thinking...</div>
+                </div>
     
-            <img src="../logo.png" alt="4 in a Row Logotipo" id="logo">
+                <div class="box-right">
+                    <div id="options">
+                        <p class="header">Algorithm</p>
+                        <p class="header">Difficulty</p>
+                        <p>
+                            <select id="difficulty" autocomplete="off">
+                                <option value="1">Depth 1</option>
+                                <option value="2">Depth 2 (Passive)</option>
+                                <option value="3">Depth 3</option>
+                                <option value="4" selected="selected">Depth 4 (Easy)</option>
+                                <option value="5">Depth 5</option>
+                                <option value="6">Depth 6 (Moderate)</option>
+                                <option value="7">Depth 7</option>
+                                <option value="8">Depth 8 (Tougher)</option>
+                            </select>
+                        </p>
+                        <p><button class="save" onclick="Game.restartGame();" type="submit">Restart game</button></p>
+                    </div>
+    
+                    <div id="debug">
+                        <p><strong>AI debugging</strong></p>
+                        <p>Generated with <span id="ai-iterations">?</span> iterations</p>
+                        <p>Measured with <span id="ai-time">?</span></p>
+                        <p><span id="ai-column">Column: ?</span></p>
+                        <p><span id="ai-score">Score: ?</span></p>
+                        <br/>
+                        <p>Status: <span id="status" class="status-running">running</span></p>
+                    </div>
+                </div>
         </div>
+    
+        <div id="standings" style="display: none">
+            <h4 class="header-text">Classificações</h4>
+            <br>
+            <li id="games">Jogos - 0</li>
+            <li id="gamesComputer">Ganhos pelo computador - 0</li>
+            <li id="gamesPlayer">Ganhos pelo jogador - 0</li>
+            <li id="draws">Empates - 0</li>
+        </div>
+
+        <img src="../logo.png" alt="4 in a Row Logotipo" id="logo">
 
         <script src="js/board.js"></script>
         <script src="js/connect-four.js"></script>

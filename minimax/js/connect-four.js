@@ -11,11 +11,16 @@ function Game() {
     this.round = 0; // 0: Human, 1: Computer
     this.winningArray = []; // Winning (chips) array
     this.iterations = 0; // Iteration count
+    this.playerWon = 0;
+    this.computerWon = 0;
+    this.draws = 0;
     
     that = this;
 
     that.init();
 }
+
+var totalGames = 0;
 
 Game.prototype.init = function() {
     // Generate 'real' board
@@ -191,22 +196,38 @@ Game.prototype.updateStatus = function() {
     // Human won
     if (that.board.score() == -that.score) {
         that.status = 1;
+        that.playerWon += 1;
+
         that.markWin();
+        document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
+
         alert("You have won!");
     }
 
     // Computer won
     if (that.board.score() == that.score) {
         that.status = 2;
+        that.computerWon += 1;
+
         that.markWin();
+        document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
+
         alert("You have lost!");
     }
 
     // Tie
     if (that.board.isFull()) {
         that.status = 3;
+        that.draws += 1;
+
+        document.getElementById('draws').innerHTML = "Empates - " + that.draws;
+
         alert("Tie!");
     }
+
+    totalGames = that.computerWon + that.draws + that.playerWon;
+
+    document.getElementById('games').innerHTML = "Jogos - " + totalGames;
 
     var html = document.getElementById('status');
     if (that.status == 0) {
