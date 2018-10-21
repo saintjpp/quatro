@@ -1,40 +1,106 @@
 var tabs = {
-    toggleConfig: function() {
-        let elemDisplay = document.getElementById("standings");
+    _toggleStandings: function() {
+        let standingsDisplay = document.getElementById("standings");
     
-        if (elemDisplay.style.display == "none") {
-            document.getElementById("standings").setAttribute('style','display: inherit');
+        if (standingsDisplay.style.display == "none") {
+            standingsDisplay.setAttribute('style','display: inherit');
         }
         else {
-            document.getElementById("standings").setAttribute('style','display: none');
+            standingsDisplay.setAttribute('style','display: none');
         }
     },
-    toggleInstructions: function() {
-        let elemDisplay = document.getElementById("instructions");
+    _toggleInstructions: function() {
+        let instructionsDisplay = document.getElementById("instructions");
         
-        if (elemDisplay.style.display == "none") {
-            document.getElementById("instructions").setAttribute('style','display: inherit');
+        if (instructionsDisplay.style.display == "none") {
+            instructionsDisplay.setAttribute('style','display: inherit');
         }
         else {
-            document.getElementById("instructions").setAttribute('style','display: none');
+            instructionsDisplay.setAttribute('style','display: none');
         }
     },
-    toggleBoard: function() {
-        let elemDisplay = document.getElementById("containerBoard");
+    _toggleBoard: function() {
+        let boardDisplay = document.getElementById("containerBoard");
+        let configDisplay = document.getElementById("configurations");
+        let identificationDisplay = document.getElementById("identification");
         
-        if (elemDisplay.style.display == "none") {
-            document.getElementById("containerBoard").setAttribute('style','display: inherit');
+        if (boardDisplay.style.display == "none") {
+            configDisplay.setAttribute('style','display: none');
+            identificationDisplay.setAttribute('style','display: none');
+            boardDisplay.setAttribute('style','display: inherit');
         }
         else {
-            document.getElementById("containerBoard").setAttribute('style','display: none');
+            boardDisplay.setAttribute('style','display: none');
         }
     },
+    _toggleConfig: function() {
+        let boardDisplay = document.getElementById("containerBoard");
+        let configDisplay = document.getElementById("configurations");
+        let identificationDisplay = document.getElementById("identification");
+        
+        if (configDisplay.style.display == "none") {
+            boardDisplay.setAttribute('style','display: none');
+            identificationDisplay.setAttribute('style','display: none');
+            configDisplay.setAttribute('style','display: inherit');
+        }
+        else {
+            configDisplay.setAttribute('style','display: none');
+        }
+    },
+    _toggleIdentification: function() {
+        let boardDisplay = document.getElementById("containerBoard");
+        let configDisplay = document.getElementById("configurations");
+        let identificationDisplay = document.getElementById("identification");
+        
+        if (identificationDisplay.style.display == "none") {
+            boardDisplay.setAttribute('style','display: none');
+            configDisplay.setAttribute('style','display: none');
+            identificationDisplay.setAttribute('style','display: inherit');
+        }
+        else {
+            identificationDisplay.setAttribute('style','display: none');
+        }
+    },
+}
+
+var standings = {
+    _playerWins: function() {
+        that.playerWon += 1;
+        that.isFinished = true;
+        document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
+        
+        standings._numberGames();
+        
+        alert("Vitória!");
+    },
+    _computerWins: function() {
+        that.computerWon += 1;
+        that.isFinished = true;
+        document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
+        
+        standings._numberGames();
+        
+        alert("Vitória para o computador!");
+    },
+    _tied: function() {
+        that.draws += 1;
+        that.isFinished = true;
+        document.getElementById('draws').innerHTML = "Empates - " + that.draws;
+    
+        standings._numberGames();
+    
+        alert("Tie!");
+    },
+    _numberGames: function() {
+        totalGames = that.computerWon + that.draws + that.playerWon;
+        document.getElementById('games').innerHTML = "Jogos - " + totalGames;
+    }
 }
 
 function Game() {
     this.rows = 6; // Height
     this.columns = 7; // Width
-    this.depth = 4; // Search depth
+    this.depth = 3; // Search depth
     this.score = 100000, // Win/loss score
     this.round = 0; // 0: Human, 1: Computer
     this.winningArray = []; // Winning (chips) array
@@ -194,81 +260,49 @@ Game.prototype.switchRound = function(round) {
     return !round;
 }
 
-Game.prototype.updateStatus = function() {
-    if (that.board.score() == -that.score) {
-        _playerWins();
-    }
-
-    if (that.board.score() == that.score) {
-        _computerWins();
-    }
-
-    if (that.board.isFull()) {
-        _tied();
-    }
-
-    _numberGames();
-}
-
-Game.prototype.markWin = function() {
-    for (let i = 0; i < that.winningArray.length; i++) {
-        let name = document.getElementById('game_board').rows[that.winningArray[i][0]].cells[that.winningArray[i][1]].className;
-        document.getElementById('game_board').rows[that.winningArray[i][0]].cells[that.winningArray[i][1]].className = name + " win";
-    }
-}
-
 Game.prototype.surrender = function() {
-    _computerWins();
+    if (!that.isFinished) {
+        standings._computerWins();
+    }
 }
 
 Game.prototype.restartGame = function() {
-    if (confirm('Game is going to be restarted.\nAre you sure?')) {
+    if (confirm('Está certo que quer reiniciar o jogo ?.\n')) {
         that.init();
     }
 }
 
-function _playerWins() {
-    that.playerWon += 1;
-    that.isFinished = true;
-    that.markWin();
-    document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
-    
-    _numberGames();
-    
-    alert("Vitória!");
+Game.prototype.updateStatus = function() {
+    if (that.board.score() == -that.score) {
+        standings._playerWins();
+    }
+
+    if (that.board.score() == that.score) {
+        standings._computerWins();
+    }
+
+    if (that.board.isFull()) {
+        standings._tied();
+    }
+
+    standings._numberGames();
 }
 
-function _computerWins() {
-    that.computerWon += 1;
-    that.isFinished = true;
-    that.markWin();
-    document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
-
-    _numberGames();
-
-    alert("Vitória para o computador!");
-}
-
-function _tied() {
-    that.draws += 1;
-    that.isFinished = true;
-    document.getElementById('draws').innerHTML = "Empates - " + that.draws;
-
-    _numberGames();
-
-    alert("Tie!");
-}
-
-function _numberGames() {
-    totalGames = that.computerWon + that.draws + that.playerWon;
-    document.getElementById('games').innerHTML = "Jogos - " + totalGames;
-}
-
-/**
- * Start game
- */
 function Start() {
     window.Game = new Game();
+    document.getElementById('levelAI').innerHTML = "Nível da inteligência artificial (profundidade): " + that.depth;
+    document.getElementById('boardDimensions').innerHTML = "Tamanho do Tabuleiro: " + that.columns + " x " + that.rows;
+    
+    let firstToStart;
+    
+    if (that.round) {
+        firstToStart = "Computador";
+    }
+    else {
+        firstToStart = "Jogador";
+    }
+
+    document.getElementById('firstToStart').innerHTML = "Primeiro a jogar: " + firstToStart;
 }
 
 window.onload = function() {

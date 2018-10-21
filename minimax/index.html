@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="Connect Four Game.">
+        <meta name="description" content="Four in a Row.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Connect Four</title>
         <link rel="stylesheet" href="css/style.css">
@@ -15,19 +15,19 @@
     <body>
         <div class="row" id="navigation">
             <div class="col-sm-2">
-                <span class="title" onClick="tabs.toggleConfig()">Classificações</span>
+                <span class="title" onClick="tabs._toggleStandings()">Classificações</span>
             </div>
             <div class="col-sm-2">
-                <span class="title">Identificação</span>
+                <span class="title" onClick="tabs._toggleIdentification()">Identificação</span>
             </div>
             <div class="col-sm-2">
-                <span class="title" onClick="tabs.toggleBoard()">Tabuleiro</span>
+                <span class="title" onClick="tabs._toggleBoard()">Tabuleiro</span>
             </div>
             <div class="col-sm-2">
-                <span class="title" onClick="tabs.toggleInstructions()">Instruções</span>
+                <span class="title" onClick="tabs._toggleInstructions()">Instruções</span>
             </div>
             <div class="col-sm-2">
-                <span class="title">Configurações</span>
+                <span class="title" onClick="tabs._toggleConfig()">Configurações</span>
             </div>
         </div>
 
@@ -44,6 +44,22 @@
                         <p><button class="save" onclick="Game.surrender();" type="submit">Surrender</button></p>
                     </div>
                 </div>
+        </div>
+
+        <div id="configurations" style="display: none">
+            <h1 class="header-text">Configurações</h1>
+            <br>
+            <p id="boardDimensions" />
+            <p> Jogo contra computador ou outro jogador: </p>
+            <p id="firstToStart" />
+            <p id="levelAI" />
+        </div>
+
+        <div id="identification" style="display: none">
+            <h1 class="header-text">Login</h1>
+            <br>
+            <p> Username: </p>
+            <p> Password </p>
         </div>
 
         <div id="containerMenus">

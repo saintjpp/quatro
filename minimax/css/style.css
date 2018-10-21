@@ -24,7 +24,7 @@ h1 {
     width: 280px;
 }
 
-#containerBoard {
+#containerBoard, #configurations, #identification {
     position: absolute;
     left: 50%;
     margin-top: 50px;
@@ -275,7 +275,6 @@ select {
     height: 30px;
     color: #fff;
     font-size: 11px;
-    border-bottom: 2px solid #DC143C;
     padding-left: 150px;
 }
 
