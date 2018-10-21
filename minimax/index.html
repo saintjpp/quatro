@@ -15,16 +15,16 @@
     <body>
         <div class="row" id="navigation">
             <div class="col-sm-2">
-                <span class="title" onClick="toggleConfig()">Classificações</span>
+                <span class="title" onClick="tabs.toggleConfig()">Classificações</span>
             </div>
             <div class="col-sm-2">
                 <span class="title">Identificação</span>
             </div>
             <div class="col-sm-2">
-                <span class="title">Tabuleiro</span>
+                <span class="title" onClick="tabs.toggleBoard()">Tabuleiro</span>
             </div>
             <div class="col-sm-2">
-                <span class="title" onClick="toggleInstructions()">Instruções</span>
+                <span class="title" onClick="tabs.toggleInstructions()">Instruções</span>
             </div>
             <div class="col-sm-2">
                 <span class="title">Configurações</span>
@@ -69,7 +69,6 @@
                 </span>    
             </div>
         </div>
-    
 
         <img src="logo.png" alt="4 in a Row Logotipo" id="logo">
 

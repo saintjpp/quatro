@@ -1,23 +1,34 @@
-function toggleConfig() {
-    let configDisplay = document.getElementById("standings");
+var tabs = {
+    toggleConfig: function() {
+        let elemDisplay = document.getElementById("standings");
     
-    if (configDisplay.style.display == "none") {
-        document.getElementById("standings").setAttribute('style','display: inherit');
-    }
-    else {
-        document.getElementById("standings").setAttribute('style','display: none');
-    }
-}
-
-function toggleInstructions() {
-    let configDisplay = document.getElementById("instructions");
-    
-    if (configDisplay.style.display == "none") {
-        document.getElementById("instructions").setAttribute('style','display: inherit');
-    }
-    else {
-        document.getElementById("instructions").setAttribute('style','display: none');
-    }
+        if (elemDisplay.style.display == "none") {
+            document.getElementById("standings").setAttribute('style','display: inherit');
+        }
+        else {
+            document.getElementById("standings").setAttribute('style','display: none');
+        }
+    },
+    toggleInstructions: function() {
+        let elemDisplay = document.getElementById("instructions");
+        
+        if (elemDisplay.style.display == "none") {
+            document.getElementById("instructions").setAttribute('style','display: inherit');
+        }
+        else {
+            document.getElementById("instructions").setAttribute('style','display: none');
+        }
+    },
+    toggleBoard: function() {
+        let elemDisplay = document.getElementById("containerBoard");
+        
+        if (elemDisplay.style.display == "none") {
+            document.getElementById("containerBoard").setAttribute('style','display: inherit');
+        }
+        else {
+            document.getElementById("containerBoard").setAttribute('style','display: none');
+        }
+    },
 }
 
 function Game() {
@@ -30,6 +41,7 @@ function Game() {
     this.playerWon = 0;
     this.computerWon = 0;
     this.draws = 0;
+    this.isFinished = false;
     
     that = this;
 
@@ -75,6 +87,8 @@ Game.prototype.init = function() {
             td[i].attachEvent('click', that.act)
         }
     }
+
+    that.isFinished = false;
 }
 
 Game.prototype.act = function(e) {
@@ -90,8 +104,7 @@ Game.prototype.act = function(e) {
 }
 
 Game.prototype.place = function(column) {
-    // If not finished
-    if (that.board.score() != that.score && that.board.score() != -that.score && !that.board.isFull()) {
+    if (!that.isFinished) {
         for (let y = that.rows - 1; y >= 0; y--) {
             if (document.getElementById('game_board').rows[y].cells[column].className == 'empty') {
                 if (that.round == 1) {
@@ -190,7 +203,6 @@ Game.prototype.updateStatus = function() {
         _computerWins();
     }
 
-    // Tie
     if (that.board.isFull()) {
         _tied();
     }
@@ -199,7 +211,6 @@ Game.prototype.updateStatus = function() {
 }
 
 Game.prototype.markWin = function() {
-    document.getElementById('game_board').className = "finished";
     for (let i = 0; i < that.winningArray.length; i++) {
         let name = document.getElementById('game_board').rows[that.winningArray[i][0]].cells[that.winningArray[i][1]].className;
         document.getElementById('game_board').rows[that.winningArray[i][0]].cells[that.winningArray[i][1]].className = name + " win";
@@ -218,16 +229,18 @@ Game.prototype.restartGame = function() {
 
 function _playerWins() {
     that.playerWon += 1;
+    that.isFinished = true;
     that.markWin();
     document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
     
     _numberGames();
-
+    
     alert("Vitória!");
 }
 
 function _computerWins() {
     that.computerWon += 1;
+    that.isFinished = true;
     that.markWin();
     document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
 
@@ -238,6 +251,7 @@ function _computerWins() {
 
 function _tied() {
     that.draws += 1;
+    that.isFinished = true;
     document.getElementById('draws').innerHTML = "Empates - " + that.draws;
 
     _numberGames();
