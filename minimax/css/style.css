@@ -294,22 +294,3 @@ select {
 #navigation a:hover {
     text-decoration: none;
 }
-
-
-@media screen and (max-width: 600px) {
-    #container {
-        margin: 0;
-        top: 50px;
-        left: 0;
-        padding: 0 5px;
-    }
-
-    .box-left {
-        float: none;
-    }
-
-    .box-right {
-        display: block;
-        float: none;
-    }
-}

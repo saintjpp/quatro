@@ -1,5 +1,5 @@
 function toggleConfig() {
-    var configDisplay = document.getElementById("standings");
+    let configDisplay = document.getElementById("standings");
     
     if (configDisplay.style.display == "none") {
         document.getElementById("standings").setAttribute('style','display: inherit');
@@ -10,7 +10,7 @@ function toggleConfig() {
 }
 
 function toggleInstructions() {
-    var configDisplay = document.getElementById("instructions");
+    let configDisplay = document.getElementById("instructions");
     
     if (configDisplay.style.display == "none") {
         document.getElementById("instructions").setAttribute('style','display: inherit');
@@ -27,7 +27,6 @@ function Game() {
     this.score = 100000, // Win/loss score
     this.round = 0; // 0: Human, 1: Computer
     this.winningArray = []; // Winning (chips) array
-    this.iterations = 0; // Iteration count
     this.playerWon = 0;
     this.computerWon = 0;
     this.draws = 0;
@@ -37,7 +36,7 @@ function Game() {
     that.init();
 }
 
-var totalGames = 0;
+let totalGames = 0;
 
 Game.prototype.init = function() {
     // Generate 'real' board
@@ -78,23 +77,22 @@ Game.prototype.init = function() {
     }
 }
 
-/**
- * On-click event
- */
 Game.prototype.act = function(e) {
-    var element = e.target || window.event.srcElement;
+    let element = e.target || window.event.srcElement;
 
-    // Human round
-    if (that.round == 0) that.place(element.cellIndex);
+    if (that.round == 0) {
+        that.place(element.cellIndex);
+    }
     
-    // Computer round
-    if (that.round == 1) that.generateComputerDecision();
+    if (that.round == 1) {
+        that.generateComputerDecision();
+    } 
 }
 
 Game.prototype.place = function(column) {
     // If not finished
     if (that.board.score() != that.score && that.board.score() != -that.score && !that.board.isFull()) {
-        for (var y = that.rows - 1; y >= 0; y--) {
+        for (let y = that.rows - 1; y >= 0; y--) {
             if (document.getElementById('game_board').rows[y].cells[column].className == 'empty') {
                 if (that.round == 1) {
                     document.getElementById('game_board').rows[y].cells[column].className = 'coin cpu-coin';
@@ -115,31 +113,11 @@ Game.prototype.place = function(column) {
 }
 
 Game.prototype.generateComputerDecision = function() {
-    if (that.board.score() != that.score && that.board.score() != -that.score && !that.board.isFull()) {
-        that.iterations = 0; // Reset iteration count
-        document.getElementById('loading').style.display = "block"; // Loading message
-
-        // AI is thinking
-        setTimeout(function() {
-            // Debug time
-            var startzeit = new Date().getTime();
-
-            // Algorithm call
-            var ai_move = that.maximizePlay(that.board, that.depth);
-
-            var laufzeit = new Date().getTime() - startzeit;
-            document.getElementById('ai-time').innerHTML = laufzeit.toFixed(2) + 'ms';
-
-            // Place ai decision
-            that.place(ai_move[0]);
-
-            // Debug
-            document.getElementById('ai-column').innerHTML = 'Column: ' + parseInt(ai_move[0] + 1);
-            document.getElementById('ai-score').innerHTML = 'Score: ' + ai_move[1];
-            document.getElementById('ai-iterations').innerHTML = that.iterations;
-
-            document.getElementById('loading').style.display = "none"; // Remove loading message
-        }, 100);
+    if (that.board.score() != that.score && 
+        that.board.score() != -that.score && 
+        !that.board.isFull()) {
+        let ai_move = that.maximizePlay(that.board, that.depth);
+        that.place(ai_move[0]);
     }
 }
 
@@ -149,23 +127,20 @@ Game.prototype.generateComputerDecision = function() {
  */
 Game.prototype.maximizePlay = function(board, depth) {
     // Call score of our board
-    var score = board.score();
+    let score = board.score();
 
     // Break
     if (board.isFinished(depth, score)) return [null, score];
 
     // Column, Score
-    var max = [null, -99999];
+    let max = [null, -99999];
 
     // For all possible moves
-    for (var column = 0; column < that.columns; column++) {
-        var newBoard = board.copy(); // Create new board
+    for (let column = 0; column < that.columns; column++) {
+        let newBoard = board.copy(); // Create new board
 
         if (newBoard.place(column)) {
-
-            that.iterations++; // Debug
-
-            var nextMove = that.minimizePlay(newBoard, depth - 1); // Recursive calling
+            let nextMove = that.minimizePlay(newBoard, depth - 1); // Recursive calling
 
             // Evaluate new move
             if (max[0] == null || nextMove[1] > max[1]) {
@@ -179,21 +154,18 @@ Game.prototype.maximizePlay = function(board, depth) {
 }
 
 Game.prototype.minimizePlay = function(board, depth) {
-    var score = board.score();
+    let score = board.score();
 
     if (board.isFinished(depth, score)) return [null, score];
 
     // Column, score
-    var min = [null, 99999];
+    let min = [null, 99999];
 
-    for (var column = 0; column < that.columns; column++) {
-        var newBoard = board.copy();
+    for (let column = 0; column < that.columns; column++) {
+        let newBoard = board.copy();
 
         if (newBoard.place(column)) {
-
-            that.iterations++;
-
-            var nextMove = that.maximizePlay(newBoard, depth - 1);
+            let nextMove = that.maximizePlay(newBoard, depth - 1);
 
             if (min[0] == null || nextMove[1] < min[1]) {
                 min[0] = column;
@@ -210,51 +182,72 @@ Game.prototype.switchRound = function(round) {
 }
 
 Game.prototype.updateStatus = function() {
-    // Human won
     if (that.board.score() == -that.score) {
-        that.playerWon += 1;
-
-        that.markWin();
-        document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
-
-        alert("Vitória!");
+        _playerWins();
     }
 
-    // Computer won
     if (that.board.score() == that.score) {
-        that.computerWon += 1;
-
-        that.markWin();
-        document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
-
-        alert("Vitória para o computador!");
+        _computerWins();
     }
 
     // Tie
     if (that.board.isFull()) {
-        that.draws += 1;
-
-        document.getElementById('draws').innerHTML = "Empates - " + that.draws;
-
-        alert("Tie!");
+        _tied();
     }
 
-    totalGames = that.computerWon + that.draws + that.playerWon;
-    document.getElementById('games').innerHTML = "Jogos - " + totalGames;
+    _numberGames();
 }
 
 Game.prototype.markWin = function() {
     document.getElementById('game_board').className = "finished";
-    for (var i = 0; i < that.winningArray.length; i++) {
-        var name = document.getElementById('game_board').rows[that.winningArray[i][0]].cells[that.winningArray[i][1]].className;
+    for (let i = 0; i < that.winningArray.length; i++) {
+        let name = document.getElementById('game_board').rows[that.winningArray[i][0]].cells[that.winningArray[i][1]].className;
         document.getElementById('game_board').rows[that.winningArray[i][0]].cells[that.winningArray[i][1]].className = name + " win";
     }
+}
+
+Game.prototype.surrender = function() {
+    _computerWins();
 }
 
 Game.prototype.restartGame = function() {
     if (confirm('Game is going to be restarted.\nAre you sure?')) {
         that.init();
     }
+}
+
+function _playerWins() {
+    that.playerWon += 1;
+    that.markWin();
+    document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
+    
+    _numberGames();
+
+    alert("Vitória!");
+}
+
+function _computerWins() {
+    that.computerWon += 1;
+    that.markWin();
+    document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
+
+    _numberGames();
+
+    alert("Vitória para o computador!");
+}
+
+function _tied() {
+    that.draws += 1;
+    document.getElementById('draws').innerHTML = "Empates - " + that.draws;
+
+    _numberGames();
+
+    alert("Tie!");
+}
+
+function _numberGames() {
+    totalGames = that.computerWon + that.draws + that.playerWon;
+    document.getElementById('games').innerHTML = "Jogos - " + totalGames;
 }
 
 /**

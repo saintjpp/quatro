@@ -12,7 +12,7 @@ Board.prototype.isFinished = function(depth, score) {
 }
 
 Board.prototype.isFull = function() {
-    for (var i = 0; i < this.game.columns; i++) {
+    for (let i = 0; i < this.game.columns; i++) {
         if (this.field[0][i] == null) {
             return false;
         }
@@ -22,7 +22,7 @@ Board.prototype.isFull = function() {
 
 Board.prototype.place = function(column) {
     if (this.field[0][column] == null && column >= 0 && column < this.game.columns) {
-        for (var y = this.game.rows - 1; y >= 0; y--) {
+        for (let y = this.game.rows - 1; y >= 0; y--) {
             if (this.field[y][column] == null) {
                 this.field[y][column] = this.player;
                 break;
@@ -36,15 +36,15 @@ Board.prototype.place = function(column) {
 }
 
 Board.prototype.scorePosition = function(row, column, delta_y, delta_x) {
-    var humanPoints = 0;
-    var computerPoints = 0;
+    let humanPoints = 0;
+    let computerPoints = 0;
 
     // Save winning positions to arrays for later usage
     this.game.winningArrayHuman = [];
     this.game.winningArrayCPU = [];
 
     // Determine score through amount of available chips
-    for (var i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
         if (this.field[row][column] == 0) {
             this.game.winningArrayHuman.push([row, column]);
             humanPoints++; // Add for each human chip
@@ -79,12 +79,12 @@ Board.prototype.scorePosition = function(row, column, delta_y, delta_x) {
  * @return {number}
  */
 Board.prototype.score = function() {
-    var points = 0;
+    let points = 0;
 
-    var verticalPoints = 0;
-    var horizontalPoints = 0;
-    var diagonal_points1 = 0;
-    var diagonal_points2 = 0;
+    let verticalPoints = 0;
+    let horizontalPoints = 0;
+    let diagonal_points1 = 0;
+    let diagonal_points2 = 0;
 
     // Board-size: 7x6 (height x width)
     // Array indices begin with 0
@@ -101,11 +101,11 @@ Board.prototype.score = function() {
     // [x][x][x][ ][ ][ ][ ] 3
     // [ ][x][x][ ][ ][ ][ ] 4
     // [ ][ ][x][ ][ ][ ][ ] 5
-    for (var row = 0; row < this.game.rows - 3; row++) {
+    for (let row = 0; row < this.game.rows - 3; row++) {
         // Für jede Column überprüfen
-        for (var column = 0; column < this.game.columns; column++) {
+        for (let column = 0; column < this.game.columns; column++) {
             // Die Column bewerten und zu den Punkten hinzufügen
-            var score = this.scorePosition(row, column, 1, 0);
+            let score = this.scorePosition(row, column, 1, 0);
             if (score == this.game.score) return this.game.score;
             if (score == -this.game.score) return -this.game.score;
             verticalPoints += score;
@@ -123,9 +123,9 @@ Board.prototype.score = function() {
     // [ ][ ][ ][x][x][x][x] 3
     // [ ][ ][ ][ ][ ][ ][ ] 4
     // [ ][ ][ ][ ][ ][ ][ ] 5
-    for (var row = 0; row < this.game.rows; row++) {
-        for (var column = 0; column < this.game.columns - 3; column++) { 
-            var score = this.scorePosition(row, column, 0, 1);   
+    for (let row = 0; row < this.game.rows; row++) {
+        for (let column = 0; column < this.game.columns - 3; column++) { 
+            let score = this.scorePosition(row, column, 0, 1);   
             if (score == this.game.score) return this.game.score;
             if (score == -this.game.score) return -this.game.score;
             horizontalPoints += score;
@@ -144,9 +144,9 @@ Board.prototype.score = function() {
     // [ ][ ][ ][x][ ][ ][ ] 3
     // [ ][ ][ ][ ][ ][ ][ ] 4
     // [ ][ ][ ][ ][ ][ ][ ] 5
-    for (var row = 0; row < this.game.rows - 3; row++) {
-        for (var column = 0; column < this.game.columns - 3; column++) {
-            var score = this.scorePosition(row, column, 1, 1);
+    for (let row = 0; row < this.game.rows - 3; row++) {
+        for (let column = 0; column < this.game.columns - 3; column++) {
+            let score = this.scorePosition(row, column, 1, 1);
             if (score == this.game.score) return this.game.score;
             if (score == -this.game.score) return -this.game.score;
             diagonal_points1 += score;
@@ -163,9 +163,9 @@ Board.prototype.score = function() {
     // [x][ ][ ][ ][ ][ ][ ] 3
     // [ ][ ][ ][ ][ ][ ][ ] 4
     // [ ][ ][ ][ ][ ][ ][ ] 5
-    for (var row = 3; row < this.game.rows; row++) {
-        for (var column = 0; column <= this.game.columns - 4; column++) {
-            var score = this.scorePosition(row, column, -1, +1);
+    for (let row = 3; row < this.game.rows; row++) {
+        for (let column = 0; column <= this.game.columns - 4; column++) {
+            let score = this.scorePosition(row, column, -1, +1);
             if (score == this.game.score) return this.game.score;
             if (score == -this.game.score) return -this.game.score;
             diagonal_points2 += score;
@@ -178,8 +178,8 @@ Board.prototype.score = function() {
 }
 
 Board.prototype.copy = function() {
-    var newBoard = new Array();
-    for (var i = 0; i < this.field.length; i++) {
+    let newBoard = new Array();
+    for (let i = 0; i < this.field.length; i++) {
         newBoard.push(this.field[i].slice());
     }
     return new Board(this.game, newBoard, this.player);
