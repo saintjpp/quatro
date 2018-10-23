@@ -94,8 +94,12 @@ h1 {
     border-radius: 50%;
 }
 
-.finished td:hover::after{
+.finished td:hover::after {
     background-color: transparent !important;
+}
+
+.pick-names {
+    float: right;
 }
 
 #game_board td {

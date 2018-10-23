@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="Four in a Row.">
+        <meta name="description" content="Quatro em linha.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Connect Four</title>
         <link rel="stylesheet" href="css/style.css">
@@ -32,7 +32,7 @@
         </div>
 
         <div id="containerBoard">
-                <h1 class="header-text">Four in a Row</h1>
+                <h1 class="header-text">Quatro em Linha</h1>
     
                 <div class="box-left">
                     <table id="game_board" cellpadding="0"></table> 
@@ -40,9 +40,13 @@
     
                 <div class="box-right">
                     <div id="options">
-                        <p><button class="save" onclick="Game.restartGame();" type="submit">Restart game</button></p>
-                        <p><button class="save" onclick="Game.surrender();" type="submit">Surrender</button></p>
+                        <p><button class="save" onclick="Game.restartGame();" type="submit">Reiniciar Jogo</button></p>
+                        <p><button class="save" onclick="Game.surrender();" type="submit">Desistir</button></p>
                     </div>
+                    <br>
+                    <p>Jogador A: <input type="text" id="inputPlayerA" value="Jogador um"></p>
+                    <p>Jogador B: <input type="text" id="inputPlayerB" value="Computador"></p>
+                    <input type="button" class="pick-names" value="Escolher nomes" onclick="_pickNames();">
                 </div>
         </div>
 
@@ -58,8 +62,9 @@
         <div id="identification" style="display: none">
             <h1 class="header-text">Login</h1>
             <br>
-            <p> Username: </p>
-            <p> Password </p>
+            <p> Username: <input type="text" name="inputUsername"> </p>
+            <p> Password: <input type="password" name="inputPassword"> </p>
+            <input type="button" value="Submit">
         </div>
 
         <div id="containerMenus">

@@ -1,7 +1,8 @@
 Configuração
-Comandos (desistir e quem começa primeiro)
-Identificação (text box com opção de submeter que actualizam o nome dos jogadores)
-Tabuleiro (não dá para esconder, é suposto ?)
-Mensagens (mensagem de desistir)
 
-- falta opção "desistir", escolher quem começa primeiro
+fácil 1 médio 2 demorado 3
+
+Opção de escolher os nomes para jogador e computador (colocar ao lado do tabuleiro) - 1
+Permitir jogar jogador contra jogador !! - 2 (round = 2, para outro jogador)
+Fazer configurações !! - 2
+Colocar IA (permitir mudar depth) - 1

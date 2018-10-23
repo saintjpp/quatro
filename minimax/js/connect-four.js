@@ -67,7 +67,7 @@ var standings = {
     _playerWins: function() {
         that.playerWon += 1;
         that.isFinished = true;
-        document.getElementById('gamesPlayer').innerHTML = "Ganhos pelo jogador - " + that.playerWon;
+        document.getElementById('gamesPlayer').innerHTML = "Ganhos por " + that.firstPlayer + " - " + that.playerWon;
         
         standings._numberGames();
         
@@ -76,7 +76,7 @@ var standings = {
     _computerWins: function() {
         that.computerWon += 1;
         that.isFinished = true;
-        document.getElementById('gamesComputer').innerHTML = "Ganhos pelo computador - " + that.computerWon;
+        document.getElementById('gamesComputer').innerHTML = "Ganhos por " + that.secondPlayer + " - " + that.computerWon;
         
         standings._numberGames();
         
@@ -97,6 +97,14 @@ var standings = {
     }
 }
 
+function _pickNames() {
+    that.firstPlayer = document.getElementById('inputPlayerA').value;
+    that.secondPlayer = document.getElementById('inputPlayerB').value;
+
+    document.getElementById('gamesPlayer').innerHTML = "Ganhos por " + that.firstPlayer + " - " + that.playerWon;
+    document.getElementById('gamesComputer').innerHTML = "Ganhos por " + that.secondPlayer + " - " + that.computerWon;
+}
+
 function Game() {
     this.rows = 6; // Height
     this.columns = 7; // Width
@@ -108,7 +116,9 @@ function Game() {
     this.computerWon = 0;
     this.draws = 0;
     this.isFinished = false;
-    
+    this.firstPlayer = "Jogador um";
+    this.secondPlayer = "Computador";
+
     that = this;
 
     that.init();
@@ -276,12 +286,10 @@ Game.prototype.updateStatus = function() {
     if (that.board.score() == -that.score) {
         standings._playerWins();
     }
-
-    if (that.board.score() == that.score) {
+    else if (that.board.score() == that.score) {
         standings._computerWins();
-    }
-
-    if (that.board.isFull()) {
+    } 
+    else if (that.board.isFull()) {
         standings._tied();
     }
 
