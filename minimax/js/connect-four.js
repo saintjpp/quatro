@@ -80,7 +80,7 @@ var standings = {
         
         standings._numberGames();
         
-        alert("Vitória para o computador!");
+        alert("Vitória para o Computador!");
     },
     _tied: function() {
         that.draws += 1;
@@ -105,13 +105,18 @@ function _pickNames() {
     document.getElementById('gamesComputer').innerHTML = "Ganhos por " + that.secondPlayer + " - " + that.computerWon;
 }
 
+function _boardDimensions() {
+    that.columns = parseInt(document.getElementById('boardDimensionsX').value);
+    that.rows = parseInt(document.getElementById('boardDimensionsY').value); 
+}
+
 function Game() {
-    this.rows = 6; // Height
-    this.columns = 7; // Width
-    this.depth = 3; // Search depth
-    this.score = 100000, // Win/loss score
-    this.round = 0; // 0: Human, 1: Computer
-    this.winningArray = []; // Winning (chips) array
+    this.columns = 7;
+    this.rows = 6;
+    this.depth = 4;
+    this.score = 100000;
+    this.round = 0;
+    this.winningArray = [];
     this.playerWon = 0;
     this.computerWon = 0;
     this.draws = 0;
@@ -267,7 +272,10 @@ Game.prototype.minimizePlay = function(board, depth) {
 }
 
 Game.prototype.switchRound = function(round) {
-    return !round;
+    if (round == 0)
+        return round = 1;
+    else if (round == 1)
+        return round = 0;
 }
 
 Game.prototype.surrender = function() {
@@ -299,7 +307,6 @@ Game.prototype.updateStatus = function() {
 function Start() {
     window.Game = new Game();
     document.getElementById('levelAI').innerHTML = "Nível da inteligência artificial (profundidade): " + that.depth;
-    document.getElementById('boardDimensions').innerHTML = "Tamanho do Tabuleiro: " + that.columns + " x " + that.rows;
     
     let firstToStart;
     

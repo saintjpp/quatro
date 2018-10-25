@@ -102,6 +102,10 @@ h1 {
     float: right;
 }
 
+#boardDimensionsX, #boardDimensionsY {
+    width: 40px;
+}
+
 #game_board td {
     border-radius: 50%;
 }

@@ -53,7 +53,11 @@
         <div id="configurations" style="display: none">
             <h1 class="header-text">Configurações</h1>
             <br>
-            <p id="boardDimensions" />
+            <p> Dimensões do Tabuleiro: 
+                <input type="text" id="boardDimensionsX" value="7"> X 
+                <input type="text" id="boardDimensionsY" value="6"> 
+                <input type="button" class="pick-dimensions" value="Escolher dimensões" onclick="_boardDimensions();" > 
+            </p>
             <p> Jogo contra computador ou outro jogador: </p>
             <p id="firstToStart" />
             <p id="levelAI" />
