@@ -223,6 +223,10 @@ input {
     cursor: pointer;
 }
 
+.custom-select {
+    width: 175px;
+}
+
 .save:hover, .save:active {
     background: #dadada;
 }

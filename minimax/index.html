@@ -58,8 +58,14 @@
                 <input type="text" id="boardDimensionsY" value="6"> 
                 <input type="button" class="pick-dimensions" value="Escolher dimensões" onclick="_boardDimensions();" > 
             </p>
-            <p> Jogo contra computador ou outro jogador: </p>
-            <p id="firstToStart" />
+            <div>
+                <select id="selectBox" onChange="selectFirstToStart();" class="custom-select">
+                  <option value="2">Primeiro a começar:</option>
+                  <option value="0" id="firstOption">Jogador um</option>
+                  <option value="1" id="secondOption">Computador</option>
+                </select>
+            </div>
+            <br>
             <p id="levelAI" />
         </div>
 
@@ -76,8 +82,8 @@
                 <h4 class="header-text">Classificações</h4>
                 <br>
                 <li id="games">Jogos - 0</li>
-                <li id="gamesComputer">Ganhos pelo computador - 0</li>
                 <li id="gamesPlayer">Ganhos pelo jogador - 0</li>
+                <li id="gamesComputer">Ganhos pelo computador - 0</li>
                 <li id="draws">Empates - 0</li>
             </div>
     

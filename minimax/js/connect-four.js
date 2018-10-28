@@ -130,8 +130,15 @@ function Game() {
 }
 
 let totalGames = 0;
+var firstToStart = 0;
 
 Game.prototype.init = function() {
+
+    if (firstToStart == 1) {
+        that.round = 1;
+    }
+    else that.round = 0;
+
     // Generate 'real' board
     // Create 2-dimensional array
     var game_board = new Array(that.rows);
@@ -252,7 +259,6 @@ Game.prototype.minimizePlay = function(board, depth) {
 
     if (board.isFinished(depth, score)) return [null, score];
 
-    // Column, score
     let min = [null, 99999];
 
     for (let column = 0; column < that.columns; column++) {
@@ -291,6 +297,8 @@ Game.prototype.restartGame = function() {
 }
 
 Game.prototype.updateStatus = function() {
+    console.log(that.board.score(), that.score);
+
     if (that.board.score() == -that.score) {
         standings._playerWins();
     }
@@ -308,16 +316,13 @@ function Start() {
     window.Game = new Game();
     document.getElementById('levelAI').innerHTML = "Nível da inteligência artificial (profundidade): " + that.depth;
     
-    let firstToStart;
-    
-    if (that.round) {
-        firstToStart = "Computador";
-    }
-    else {
-        firstToStart = "Jogador";
-    }
+}
 
-    document.getElementById('firstToStart').innerHTML = "Primeiro a jogar: " + firstToStart;
+function selectFirstToStart() {
+    let selectElem = document.getElementById("selectBox");
+    firstToStart = selectElem.options[selectElem.selectedIndex].value;
+
+    console.log(firstToStart);
 }
 
 window.onload = function() {
