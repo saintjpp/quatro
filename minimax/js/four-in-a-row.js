@@ -129,8 +129,13 @@ function Game() {
     that.init();
 }
 
+function Start() {
+    window.Game = new Game();
+    document.getElementById('levelAI').innerHTML = "Nível da inteligência artificial (profundidade): " + that.depth;
+}
+
 let totalGames = 0;
-var firstToStart = 0;
+let firstToStart = 0;
 
 Game.prototype.init = function() {
 
@@ -139,36 +144,30 @@ Game.prototype.init = function() {
     }
     else that.round = 0;
 
-    // Generate 'real' board
-    // Create 2-dimensional array
-    var game_board = new Array(that.rows);
-    for (var i = 0; i < game_board.length; i++) {
-        game_board[i] = new Array(that.columns);
+    let gameBoard = new Array(that.rows);
+    for (let i = 0; i < gameBoard.length; i++) {
+        gameBoard[i] = new Array(that.columns);
 
-        for (var j = 0; j < game_board[i].length; j++) {
-            game_board[i][j] = null;
+        for (var j = 0; j < gameBoard[i].length; j++) {
+            gameBoard[i][j] = null;
         }
     }
 
-    // Create from board object (see board.js)
-    this.board = new Board(this, game_board, 0);
+    this.board = new Board(this, gameBoard, 0);
 
-    // Generate visual board
-    var game_board = "";
-    for (var i = 0; i < that.rows; i++) {
-        game_board += "<tr>";
-        for (var j = 0; j < that.columns; j++) {
-            game_board += "<td class='empty'></td>";
+    gameBoard = "";
+    for (i = 0; i < that.rows; i++) {
+        gameBoard += "<tr>";
+        for (let j = 0; j < that.columns; j++) {
+            gameBoard += "<td class='empty'></td>";
         }
-        game_board += "</tr>";
+        gameBoard += "</tr>";
     }
 
-    document.getElementById('game_board').innerHTML = game_board;
+    document.getElementById('game-board').innerHTML = gameBoard;
 
-    // Action listeners
-    var td = document.getElementById('game_board').getElementsByTagName("td");
-
-    for (var i = 0; i < td.length; i++) {
+    let td = document.getElementById('game-board').getElementsByTagName("td");
+    for (i = 0; i < td.length; i++) {
         if (td[i].addEventListener) {
             td[i].addEventListener('click', that.act, false);
         } else if (td[i].attachEvent) {
@@ -187,18 +186,18 @@ Game.prototype.act = function(e) {
     }
     
     if (that.round == 1) {
-        that.generateComputerDecision();
+        that.computerPlaying();
     } 
 }
 
 Game.prototype.place = function(column) {
     if (!that.isFinished) {
         for (let y = that.rows - 1; y >= 0; y--) {
-            if (document.getElementById('game_board').rows[y].cells[column].className == 'empty') {
+            if (document.getElementById('game-board').rows[y].cells[column].className == 'empty') {
                 if (that.round == 1) {
-                    document.getElementById('game_board').rows[y].cells[column].className = 'coin cpu-coin';
+                    document.getElementById('game-board').rows[y].cells[column].className = 'coin cpu-coin';
                 } else {
-                    document.getElementById('game_board').rows[y].cells[column].className = 'coin human-coin';
+                    document.getElementById('game-board').rows[y].cells[column].className = 'coin player-one-coin';
                 }
                 break;
             }
@@ -213,7 +212,12 @@ Game.prototype.place = function(column) {
     }
 }
 
-Game.prototype.generateComputerDecision = function() {
+Game.prototype.selectFirstToStart = function() {
+    let selectElem = document.getElementById("selectBox");
+    firstToStart = selectElem.options[selectElem.selectedIndex].value;
+}
+
+Game.prototype.computerPlaying = function() {
     if (that.board.score() != that.score && 
         that.board.score() != -that.score && 
         !that.board.isFull()) {
@@ -222,29 +226,23 @@ Game.prototype.generateComputerDecision = function() {
     }
 }
 
-/**
- * Algorithm
- * Minimax principle
- */
 Game.prototype.maximizePlay = function(board, depth) {
-    // Call score of our board
     let score = board.score();
 
-    // Break
-    if (board.isFinished(depth, score)) return [null, score];
+    if (board.isFinished(depth, score)) {
+        return [null, score];
+    } 
 
-    // Column, Score
     let max = [null, -99999];
 
-    // For all possible moves
     for (let column = 0; column < that.columns; column++) {
-        let newBoard = board.copy(); // Create new board
+        let newBoard = board.copy();
 
         if (newBoard.place(column)) {
-            let nextMove = that.minimizePlay(newBoard, depth - 1); // Recursive calling
+            let nextMove = that.minimizePlay(newBoard, depth - 1);
 
-            // Evaluate new move
-            if (max[0] == null || nextMove[1] > max[1]) {
+            if (max[0] == null || 
+                nextMove[1] > max[1]) {
                 max[0] = column;
                 max[1] = nextMove[1];
             }
@@ -256,10 +254,11 @@ Game.prototype.maximizePlay = function(board, depth) {
 
 Game.prototype.minimizePlay = function(board, depth) {
     let score = board.score();
-
-    if (board.isFinished(depth, score)) return [null, score];
-
     let min = [null, 99999];
+
+    if (board.isFinished(depth, score)) {
+        return [null, score];
+    } 
 
     for (let column = 0; column < that.columns; column++) {
         let newBoard = board.copy();
@@ -267,7 +266,8 @@ Game.prototype.minimizePlay = function(board, depth) {
         if (newBoard.place(column)) {
             let nextMove = that.maximizePlay(newBoard, depth - 1);
 
-            if (min[0] == null || nextMove[1] < min[1]) {
+            if (min[0] == null || 
+                nextMove[1] < min[1]) {
                 min[0] = column;
                 min[1] = nextMove[1];
             }
@@ -297,8 +297,6 @@ Game.prototype.restartGame = function() {
 }
 
 Game.prototype.updateStatus = function() {
-    console.log(that.board.score(), that.score);
-
     if (that.board.score() == -that.score) {
         standings._playerWins();
     }
@@ -310,19 +308,6 @@ Game.prototype.updateStatus = function() {
     }
 
     standings._numberGames();
-}
-
-function Start() {
-    window.Game = new Game();
-    document.getElementById('levelAI').innerHTML = "Nível da inteligência artificial (profundidade): " + that.depth;
-    
-}
-
-function selectFirstToStart() {
-    let selectElem = document.getElementById("selectBox");
-    firstToStart = selectElem.options[selectElem.selectedIndex].value;
-
-    console.log(firstToStart);
 }
 
 window.onload = function() {

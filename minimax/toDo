@@ -1,8 +1,9 @@
-Configuração
-
 fácil 1 médio 2 demorado 3
 
-Opção de escolher os nomes para jogador e computador (colocar ao lado do tabuleiro) - 1
+firstToStart tem bug, diz sempre que o computador é o vencedor - 2
+
+
+Só é preciso para a segunda entrega:
+
 Permitir jogar jogador contra jogador !! - 2 (round = 2, para outro jogador)
-Fazer configurações !! - 2
 Colocar IA (permitir mudar depth) - 1

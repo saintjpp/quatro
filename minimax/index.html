@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="Quatro em linha.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Connect Four</title>
+        <title>Four in a Row</title>
         <link rel="stylesheet" href="css/style.css">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -35,7 +35,7 @@
                 <h1 class="header-text">Quatro em Linha</h1>
     
                 <div class="box-left">
-                    <table id="game_board" cellpadding="0"></table> 
+                    <table id="game-board" cellpadding="0"></table> 
                 </div>
     
                 <div class="box-right">
@@ -59,7 +59,7 @@
                 <input type="button" class="pick-dimensions" value="Escolher dimensões" onclick="_boardDimensions();" > 
             </p>
             <div>
-                <select id="selectBox" onChange="selectFirstToStart();" class="custom-select">
+                <select id="selectBox" onChange="Game.selectFirstToStart();" class="custom-select">
                   <option value="2">Primeiro a começar:</option>
                   <option value="0" id="firstOption">Jogador um</option>
                   <option value="1" id="secondOption">Computador</option>
@@ -104,6 +104,6 @@
         <img src="logo.png" alt="4 in a Row Logotipo" id="logo">
 
         <script src="js/board.js"></script>
-        <script src="js/connect-four.js"></script>
+        <script src="js/four-in-a-row.js"></script>
     </body>
 </html>

@@ -51,7 +51,7 @@ h1 {
     overflow: hidden;
 }
 
-#game_board {
+#game-board {
     border-collapse:collapse;
 }
 
@@ -61,7 +61,7 @@ h1 {
     height: 55px;
 }
 
-#game_board td {
+#game-board td {
     border: 1px dashed #808080;
     position: relative;
     width: 50px;
@@ -69,7 +69,7 @@ h1 {
     cursor: pointer;
 }
 
-#game_board td:hover::after {
+#game-board td:hover::after {
     background-color: #F4F4F4;
     content: '';
     height: 10000px;
@@ -106,32 +106,32 @@ h1 {
     width: 40px;
 }
 
-#game_board td {
+#game-board td {
     border-radius: 50%;
 }
 
-#game_board .coin {
+#game-board .coin {
     cursor: default;
 }
 
-#game_board tr {
+#game-board tr {
     width: 100%;
     height: 100%;
 }
 
-#game_board .human-coin,
-.human-coin {
+#game-board .player-one-coin,
+.player-one-coin {
     border-radius: 50%;
     background: #333;
 }
 
-#game_board .cpu-coin,
+#game-board .cpu-coin,
 .cpu-coin {
     border-radius: 50%;
     background: #DC143C;
 }
 
-#game_board .win {
+#game-board .win {
     border-radius: 50%;
     animation: animationFrames 1s infinite;
     -webkit-animation: animationFrames 1s infinite;
