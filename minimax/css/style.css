@@ -47,25 +47,15 @@ h1 {
     width: 100px;
 } 
 
-.box-left {
-    overflow: hidden;
-}
-
 #game-board {
-    border-collapse:collapse;
-}
-
-#coinfeld {
-    position: relative;
-    width: 100%;
-    height: 55px;
+    border-collapse: collapse;
 }
 
 #game-board td {
-    border: 1px dashed #808080;
+    border: 0.5px solid #808080;
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     cursor: pointer;
 }
 
@@ -122,13 +112,13 @@ h1 {
 #game-board .player-one-coin,
 .player-one-coin {
     border-radius: 50%;
-    background: #333;
+    background: #0000cc;
 }
 
 #game-board .cpu-coin,
 .cpu-coin {
     border-radius: 50%;
-    background: #DC143C;
+    background: #e60000;
 }
 
 #game-board .win {
@@ -199,6 +189,7 @@ h1 {
     position: relative;
     margin: 10px 10px 10px 0;
     float: left;
+    overflow: hidden;
 }
 
 #options {
@@ -228,7 +219,7 @@ input {
 }
 
 .save:hover, .save:active {
-    background: #dadada;
+    background: #f7f7f7;
 }
 
 #loading {
@@ -270,12 +261,9 @@ select {
 }
 
 .header-text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-bottom: 5px !important;
     margin-left: 2px !important;
-}
-
-.subheader-text {
-    margin-left: 3px !important;
 }
 
 #navigation {

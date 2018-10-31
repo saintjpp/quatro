@@ -71,7 +71,7 @@ var standings = {
         
         standings._numberGames();
         
-        alert("Vitória!");
+        alert("Vitória para o " + that.firstPlayer + "!");
     },
     _computerWins: function() {
         that.computerWon += 1;
@@ -80,7 +80,7 @@ var standings = {
         
         standings._numberGames();
         
-        alert("Vitória para o Computador!");
+        alert("Vitória para o " + that.secondPlayer + "!");
     },
     _tied: function() {
         that.draws += 1;
@@ -89,7 +89,7 @@ var standings = {
     
         standings._numberGames();
     
-        alert("Tie!");
+        alert("Empate!");
     },
     _numberGames: function() {
         totalGames = that.computerWon + that.draws + that.playerWon;
@@ -103,6 +103,8 @@ function _pickNames() {
 
     document.getElementById('gamesPlayer').innerHTML = "Ganhos por " + that.firstPlayer + " - " + that.playerWon;
     document.getElementById('gamesComputer').innerHTML = "Ganhos por " + that.secondPlayer + " - " + that.computerWon;
+    document.getElementById('firstOption').innerHTML = that.firstPlayer;
+    document.getElementById('secondOption').innerHTML = that.secondPlayer;
 }
 
 function _boardDimensions() {
@@ -114,7 +116,7 @@ function Game() {
     this.columns = 7;
     this.rows = 6;
     this.depth = 4;
-    this.score = 100000;
+    this.score = 10000;
     this.round = 0;
     this.winningArray = [];
     this.playerWon = 0;
@@ -148,7 +150,7 @@ Game.prototype.init = function() {
     for (let i = 0; i < gameBoard.length; i++) {
         gameBoard[i] = new Array(that.columns);
 
-        for (var j = 0; j < gameBoard[i].length; j++) {
+        for (let j = 0; j < gameBoard[i].length; j++) {
             gameBoard[i][j] = null;
         }
     }
@@ -158,7 +160,7 @@ Game.prototype.init = function() {
     gameBoard = "";
     for (i = 0; i < that.rows; i++) {
         gameBoard += "<tr>";
-        for (let j = 0; j < that.columns; j++) {
+        for (j = 0; j < that.columns; j++) {
             gameBoard += "<td class='empty'></td>";
         }
         gameBoard += "</tr>";
@@ -193,11 +195,12 @@ Game.prototype.act = function(e) {
 Game.prototype.place = function(column) {
     if (!that.isFinished) {
         for (let y = that.rows - 1; y >= 0; y--) {
-            if (document.getElementById('game-board').rows[y].cells[column].className == 'empty') {
+            let cellClass = document.getElementById('game-board').rows[y].cells[column];
+            if (cellClass.className == 'empty') {
                 if (that.round == 1) {
-                    document.getElementById('game-board').rows[y].cells[column].className = 'coin cpu-coin';
+                    cellClass.className = 'coin cpu-coin';
                 } else {
-                    document.getElementById('game-board').rows[y].cells[column].className = 'coin player-one-coin';
+                    cellClass.className = 'coin player-one-coin';
                 }
                 break;
             }
@@ -221,8 +224,8 @@ Game.prototype.computerPlaying = function() {
     if (that.board.score() != that.score && 
         that.board.score() != -that.score && 
         !that.board.isFull()) {
-        let ai_move = that.maximizePlay(that.board, that.depth);
-        that.place(ai_move[0]);
+        let aiMove = that.maximizePlay(that.board, that.depth);
+        that.place(aiMove[0]);
     }
 }
 
@@ -248,13 +251,12 @@ Game.prototype.maximizePlay = function(board, depth) {
             }
         }
     }
-
     return max;
 }
 
 Game.prototype.minimizePlay = function(board, depth) {
     let score = board.score();
-    let min = [null, 99999];
+    let min = [null, 9999];
 
     if (board.isFinished(depth, score)) {
         return [null, score];
@@ -291,7 +293,7 @@ Game.prototype.surrender = function() {
 }
 
 Game.prototype.restartGame = function() {
-    if (confirm('Está certo que quer reiniciar o jogo ?.\n')) {
+    if (confirm('Está certo que quer reiniciar o jogo ?\n')) {
         that.init();
     }
 }

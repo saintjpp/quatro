@@ -64,11 +64,9 @@ Board.prototype.scorePosition = function(row, column, deltaY, deltaX) {
 
     if (playerOnePoints == 4) {
         this.game.winningArray = this.game.winningArrayPlayerOne;
-
         return -this.game.score;
     } else if (computerPoints == 4) {
         this.game.winningArray = this.game.winningArrayCPU;
-
         return this.game.score;
     } else {
         return computerPoints;
